@@ -38,16 +38,28 @@ bool LinkedList<T>::search(T value) const
 {
 	Node<T>* temp = m_front;
 	bool isFound = false;
-        while(temp->getNext() != nullptr && isFound = false)
+        if (m_size == 0)
+        {
+            return(isFound);
+        }
+        else
+        {
+        while(temp->getNext() != nullptr)
         {
         if(temp->getValue() == value)
         {
-            isFound = true;
+            return(true);
         }
         temp = temp->getNext();
+        if(temp->getValue() == value)
+        {
+            isFound = true;
+            return(isFound);
+        }
         }
 
-	return(isFound);
+        }
+        return(isFound);
 }
 
 template <typename T>
@@ -104,24 +116,30 @@ bool LinkedList<T>::removeBack()
 	Node<T>* lastNode = nullptr;
 	Node<T>* secondintoLast = nullptr;
 	bool isRemoved = false;
+        lastNode = m_front;
 
+        if (m_size == 0)
+        {
+            return(false);
+        }
         if(m_size == 1)
         {
             delete m_front;
             m_front = nullptr;
+            m_size --;
+            isRemoved = true;
         }
         if(m_size>1)
         {
             //similar to add to back conditional
-            while (lastNode->getnext()!=nullptr)
+            while (lastNode->getNext()!=nullptr)
            {
                secondintoLast = lastNode; //second to last item on list
                lastNode = lastNode->getNext(); //last item on list.
            }
             delete lastNode; // delete lsat item on list
-            secondintoLast->setnext(nullptr);
-            lastNode = secondintoLast;//set last item on list to equal null (prevent memory leak)
-            m_size = m_size - 1; //reduce size.
+            secondintoLast->setNext(nullptr); //set last item on list to equal null (prevent memory leak)
+            m_size --; //reduce size.
             isRemoved = true;
 
         }
